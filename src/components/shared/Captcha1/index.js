@@ -1,0 +1,1 @@
+export { Captcha1 } from "./Captcha1";

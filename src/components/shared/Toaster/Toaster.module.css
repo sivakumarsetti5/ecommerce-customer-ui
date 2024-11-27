@@ -1,0 +1,25 @@
+.toaster{
+    background-color: red;
+    position: fixed;
+    border-radius: 5px;
+    padding: 5px;
+    width: 300px;
+    right: 0;
+    top: 0;
+    color: white;
+    font-weight: bold;
+}
+.toaster > div:first-child{
+      display: inline-block;
+      width: 250px;
+}
+.toaster>div:last-child{
+    height: 2px;
+    background-color: aliceblue;
+    margin-top: 5px;
+}
+.toaster >b {
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+}

@@ -1,0 +1,20 @@
+.header{
+    height:120px;
+    box-shadow: 2px 2px 2px 2px rgb(168, 164, 164);
+    position: relative;
+
+}
+.header img{
+    width:100px;
+}
+.auth{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.auth>a{
+    color: black;
+    text-decoration: none;
+    letter-spacing: 2px;
+    margin-right: 8px;
+}
