@@ -5,9 +5,15 @@ import { publicRoutes} from './routes/public/routes';
 import { useSelector } from 'react-redux';
 import { useRoutes } from 'react-router-dom';
 import { privateRoutes } from './routes/private/routes';
+import { Loader } from './components/shared/Loader/Loader';
+import { Toaster } from './components/shared/Toaster/Toaster';
+import { Modal } from './components/shared/Modal/Modal';
 
 const App = () => {
   const isLoggedIn =  useSelector((state)=>state?.appReducer?.isLoggedIn)
+  const isShowLoader = useSelector((state)=>state?.appReducer?.isShowLoader)
+  const isShowToaster = useSelector((state)=>state?.appReducer?.toaster?.isShowToaster)
+  const isShowModal = useSelector((state)=>state?.appReducer?.modal?.isShowModal)
   return (
     <div data-testid="app">
       <Header/>
@@ -15,6 +21,9 @@ const App = () => {
          {useRoutes(isLoggedIn ? privateRoutes:publicRoutes)}
       </Suspense>
       <Footer/>
+      {isShowLoader && <Loader/>}
+      {isShowToaster && <Toaster/>}
+      {isShowModal && <Modal/>}
     </div>
   );
 }
