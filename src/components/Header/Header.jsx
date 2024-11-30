@@ -8,7 +8,7 @@ export const Header = () => {
   return (
     <div data-testid='header' className={styles.header}>
       <Link to='/'>
-         <img src='eCart_logo.png'/>
+         <img src='logo.png' alt='logo'/>
       </Link>
       {isLoggedIn ? 
          <AppMenu/>:

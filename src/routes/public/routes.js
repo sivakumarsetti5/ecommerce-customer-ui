@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { lazy } from "react";
 
+const ProductInfo = lazy(()=>import("./ProductInfo")) ;
 const ForgotPwd = lazy(()=>import("./ForgotPwd"))
 const Login = lazy(()=>import("./Login"))
 const Products = lazy(()=>import("./Products"))
@@ -26,6 +27,10 @@ export const publicRoutes = [
     {
         path:"/products",
         element:<Products/>
+    },
+    {
+        path:"/product-info/:id",
+        element:<ProductInfo/>
     },
     {
         path:"*",
