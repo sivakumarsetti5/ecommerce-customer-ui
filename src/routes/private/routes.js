@@ -5,7 +5,9 @@ const Cart = lazy(()=>import("./Cart"))
 const Orders = lazy(()=>import("./Orders"))
 const Address = lazy(()=>import("./Address"))
 const Products = lazy(()=>import("../public/Products"))
+const ProductInfo = lazy(()=>import("../public/ProductInfo"))
 const Profile = lazy(()=>import("./Profile"))
+const BuyNow = lazy(()=>import("./BuyNow"))
 
 
 export const privateRoutes = [
@@ -34,7 +36,15 @@ export const privateRoutes = [
         element:<Profile/>
     },
     {
+        path:"/product-info/:id",
+        element:<ProductInfo/>
+    },
+    {
+        path:"/buy-now",
+        element:<BuyNow/>
+    },
+    {
         path:"*",
         element:<Navigate to='/'/>
-    },
+    }
 ]

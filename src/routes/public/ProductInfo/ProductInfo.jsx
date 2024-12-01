@@ -1,18 +1,36 @@
 import { useQuery } from '@apollo/client'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import React, { useEffect } from 'react'
 import { GET_PRODUCT_INFO } from '../../../graphql/queries/getProductInfo'
 import styles from './ProductInfo.module.css'
 import { useDispatch } from 'react-redux'
+import { AppCookies } from '../../../services/cookies'
 export const ProductInfo = (props) => {
    const {id} = useParams()
    const dispatch = useDispatch()
+   const navigate = useNavigate()
    
   const{loading,data,error,refetch} =  useQuery(GET_PRODUCT_INFO,{
     variables:{
       "productId": id
     }
   })
+  const handleAddToCart = ()=>{
+    const {uid} = AppCookies.getAllCookies()
+    if(uid){
+      navigate("/cart")
+    }else{
+      navigate('/login')
+    }
+  }
+  const handleBuyNow = ()=>{
+    const {uid} = AppCookies.getAllCookies()
+    if(uid){
+      navigate("/buy-now")
+    }else{
+      navigate('/login')
+    }
+  }
   // console.log(data?.getProductInfo?.[0])
   const{name,category,cost,description,filePath} = data?.getProductInfo?.[0] || {}
   useEffect(()=>{
@@ -38,8 +56,8 @@ export const ProductInfo = (props) => {
          <div>RS: {cost}/-</div>
          <div>{description}</div>
          <div>
-          <button className='btn btn-primary'>Add to Cart</button>
-          <button className='btn btn-dark'>Buy Now</button>
+          <button className='btn btn-primary' onClick={handleAddToCart}>Add to Cart</button>
+          <button className='btn btn-dark' onClick={handleBuyNow}>Buy Now</button>
          </div>
       </div>
     </div>

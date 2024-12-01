@@ -1,11 +1,13 @@
 .header{
-    height:100px;
-    box-shadow: 2px 2px 2px 2px rgb(168, 164, 164);
+    height:90px;
+    /* box-shadow: 2px 2px 2px 2px rgb(168, 164, 164); */
     position: relative;
+    background-color: #19398a;
 
 }
 .header img{
     width:100px;
+    margin-left: 50px;
 }
 .auth{
     position: absolute;
@@ -13,8 +15,8 @@
     top: 0;
 }
 .auth>a{
-    color: black;
+    color: white;
     text-decoration: none;
     letter-spacing: 2px;
-    margin-right: 8px;
+    margin-right: 10px;
 }
