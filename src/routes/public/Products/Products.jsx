@@ -25,8 +25,6 @@ export const Products = () => {
                 src={`${
                   process.env.REACT_APP_VENDOR_BASE_URL
                 }${filePath}?time=${Date.now()}`}
-                width={180}
-                height={150}
                 loading="lazy"
                 alt='product'
               />

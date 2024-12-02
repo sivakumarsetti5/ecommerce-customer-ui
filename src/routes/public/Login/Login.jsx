@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import config from './config.json'
 import { Input } from '../../../components/shared/Input/Input'
 import { handleFieldLevelValidation, handleFormLevelValidation } from '../../../services/validations'
+import styles from './Login.module.css'
+
 export const Login = () => {
   const[inputControls,setInputControls] = useState(config)
 
@@ -13,7 +15,7 @@ export const Login = () => {
     if (isInValid) return
   }
   return (
-    <div className='container-fluid'>
+    <div className={`container-fluid ${styles.loginContainer}`}>
       <h3 className='text-center py-4'>Login</h3>
       {
         inputControls.map((obj,index)=>{

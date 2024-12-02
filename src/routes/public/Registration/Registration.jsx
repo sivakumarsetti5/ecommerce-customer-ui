@@ -5,6 +5,7 @@ import { clearFormData, handleFieldLevelValidation, handleFormLevelValidation } 
 import Ajax from '../../../services/ajax'
 import { updateStoreData } from '../../../services/functions'
 import { useDispatch } from 'react-redux'
+import styles from './Registration.module.css'
 
 
 export const Registration = () => {
@@ -45,7 +46,7 @@ export const Registration = () => {
     
   }
   return (
-    <div className='container-fluid'>
+    <div className={`container-fluid ${styles.registration}`}>
       <h3 className='text-center py-4'>Registration</h3>
       {
         inputControls.map((obj,index)=>{

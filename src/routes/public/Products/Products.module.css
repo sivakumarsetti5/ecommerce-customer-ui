@@ -1,15 +1,17 @@
 .productCon{
     display: flex;
-    flex-wrap: wrap;    
+    flex-wrap: wrap;
+    margin-top: 100px;  
+    padding: 10px;
 }
 .productCard{
     height: 280px;
-    width: 220px;
-    margin: 20px;
-    /* border: 2px solid #c5c5cf; */
-    padding: 5px;
-    border-radius: 10px;
-    box-shadow: 10px 10px 10px 10px #c5c5cf;
+    width: 210px;
+    margin: 5px;
+    border: 1px solid #b0b0c2;
+    border-radius: 5px;
+    /* box-shadow: 10px 10px 10px 10px #c5c5cf; */
+    background-color:#fff ;
     cursor: pointer;
 }
 
@@ -19,19 +21,24 @@
 
 .productCard img{
     width: 100%;
-    border-radius: 10px;
+    height:150px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
     margin-bottom: 10px;
 }
 .productCard >div:nth-child(2){
     font-size: 20px;
     color:rgb(90, 90, 190);
+    padding-left: 8px;
 }
 .productCard >div:nth-child(3){
     font-size: 15px;
     color:rgb(95, 91, 91);
     font-weight: 600;
+    padding-left: 8px;
 }
 .productCard >div:nth-child(4){
     font-size: 15px;
     font-weight: 700;
+    padding-left: 8px;
 }

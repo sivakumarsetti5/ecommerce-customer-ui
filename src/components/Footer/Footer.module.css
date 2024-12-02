@@ -1,3 +1,6 @@
 .footer{
-    box-shadow: 2px 2px 2px 2px;
+    background-color: #19398a;
+    font-size: 15px;
+    font-family: cursive;
+    color: rgba(255, 255, 255, 0.966);
 }
