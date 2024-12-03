@@ -15,6 +15,10 @@ const regEx = {
         pattern:/^[0-9]{10}$/,
         message:"Exactly 10 digits required"
     },
+    "EMAIL/PHONENUMBER":{
+        pattern:[/^[a-zA-Z]{1}[a-zA-Z0-9._/]*@[a-zA-z]{3,10}\.[a-zA-Z]{2,3}$/,/^[0-9]{10}$/],
+        message:"Enter Valid Input"
+    },
     "RETYPEPWD":{
         message:"Password not match"
     },
@@ -89,6 +93,13 @@ async function validate(inputObj,clonedInputControls,files){
                 const [width,height] = await getImageWidthAndHeight(files[0]) 
                 console.log("image info",size,width,height)
                 if(!(size<=150000 && width<=1200 && height<=1200)){
+                    inputObj.errorMsg = message
+                    break outerloop
+                }
+                break
+            case "EMAIL/PHONENUMBER":
+                const isValid =pattern[0].test(inputObj?.value) || pattern[1].test(inputObj?.value)
+                if(!isValid){
                     inputObj.errorMsg = message
                     break outerloop
                 }

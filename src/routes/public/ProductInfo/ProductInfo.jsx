@@ -5,31 +5,28 @@ import { GET_PRODUCT_INFO } from '../../../graphql/queries/getProductInfo'
 import styles from './ProductInfo.module.css'
 import { useDispatch } from 'react-redux'
 import { AppCookies } from '../../../services/cookies'
-export const ProductInfo = (props) => {
-   const {id} = useParams()
-   const dispatch = useDispatch()
-   const navigate = useNavigate()
-   
+export const ProductInfo = () => {
+  const {id} = useParams()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const{loading,data,error,refetch} =  useQuery(GET_PRODUCT_INFO,{
     variables:{
       "productId": id
     }
   })
-  const handleAddToCart = ()=>{
-    const {uid} = AppCookies.getAllCookies()
-    if(uid){
-      navigate("/cart")
+  const handleAuth = (path) =>{
+    const isLoggedIn = AppCookies.isUserLoggedIn()
+    if(isLoggedIn){
+      navigate(path)
     }else{
       navigate('/login')
     }
   }
+  const handleAddToCart = ()=>{
+    handleAuth('/cart')
+  }
   const handleBuyNow = ()=>{
-    const {uid} = AppCookies.getAllCookies()
-    if(uid){
-      navigate("/buy-now")
-    }else{
-      navigate('/login')
-    }
+    handleAuth('/buy-now')
   }
   // console.log(data?.getProductInfo?.[0])
   const{name,category,cost,description,filePath} = data?.getProductInfo?.[0] || {}
@@ -40,6 +37,7 @@ export const ProductInfo = (props) => {
     })
   },[loading])
   return (
+    <div>{data && 
     <div className={styles.productInfoCont}>
       <div className={styles.imgContainer}>
         <img
@@ -61,5 +59,6 @@ export const ProductInfo = (props) => {
          </div>
       </div>
     </div>
+    }</div>
   )
 }

@@ -2,7 +2,7 @@
     {
         "lbl": "Email/Phone",
         "lblCols": "5",
-        "name": "uid",
+        "name": "user",
         "type": "text",
         "errMsgCols": "4",
         "isRequired": true,
@@ -13,7 +13,7 @@
         "placeholder": "Email/Phone",
         "criteria": [
             "REQUIRED",
-            "EMAIL/PHONE"
+            "EMAIL/PHONENUMBER"
         ]
     }
 ]

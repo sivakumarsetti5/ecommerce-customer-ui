@@ -1,7 +1,7 @@
 import React from 'react'
-
+import styles from './Orders.module.css'
 export const Orders = () => {
   return (
-    <div>Orders</div>
+    <div className={styles.orders}>Orders</div>
   )
 }
