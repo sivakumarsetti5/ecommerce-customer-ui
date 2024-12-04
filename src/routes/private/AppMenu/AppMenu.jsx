@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -6,13 +7,17 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import styles from './AppMenu.module.css';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
+
+import styles from './AppMenu.module.css';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import {AppCookies} from '../../../services/cookies'
 
 export const AppMenu = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] =useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -24,6 +29,11 @@ export const AppMenu = () => {
   };
   const handleClose = () =>{
     setAnchorEl(null);
+  }
+  const handleLogout=()=>{
+     AppCookies.deleteAllCookies()
+     navigate('/')
+     dispatch({type:"LOGIN",payload:false})
   }
   return (
     <div className={styles.appMenu}>
@@ -88,7 +98,7 @@ export const AppMenu = () => {
         <Avatar /> Address
         </MenuItem>
         <Divider/>
-        <MenuItem onClick={()=>handleNavigation("./logout")}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

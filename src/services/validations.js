@@ -114,7 +114,6 @@ async function validate(inputObj,clonedInputControls,files){
         }
 }
 export async function handleFieldLevelValidation(event,inputControls,setinputControls){
-    debugger
     const{name,value,type,files} = event?.target
     //const clonedInputControls = JSON.parse(JSON.stringify(inputControls))
     const clonedInputControls = Object.assign([],inputControls)
@@ -131,7 +130,7 @@ export async function handleFieldLevelValidation(event,inputControls,setinputCon
 
 
 export async function handleFormLevelValidation(inputControls,setInputControls,isEdit){
-    debugger
+    //debugger
     const dataObj  = {}
     const clonedInputControls = Object.assign([],inputControls)
     //console.log(123123,clonedInputControls)

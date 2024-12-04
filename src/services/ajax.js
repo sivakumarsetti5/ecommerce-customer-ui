@@ -5,6 +5,7 @@ class Ajax {
         return axios.get(`${process.env.REACT_APP_BASE_URL}${url}`)
     }
     static post(url,data ){
+        //console.log(url,data)
         return axios.post(`${process.env.REACT_APP_BASE_URL}${url}`,data)
     }
     static put(url,data ){
