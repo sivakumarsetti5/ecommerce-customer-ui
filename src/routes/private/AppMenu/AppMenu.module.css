@@ -3,3 +3,16 @@
     right: 0;
     top: 0; */
 }
+.cartImageContainer{
+    position: relative;
+}
+.cartImageContainer>span {
+    position: absolute;
+    left:35px;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    width: 20px;
+    text-align: center;
+    line-height: 20px;
+}

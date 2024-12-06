@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-
+import React, { useState,useEffect } from 'react'
+import Ajax from '../../../services/ajax';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -15,14 +15,23 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {AppCookies} from '../../../services/cookies'
 
+import { FaCartPlus } from "react-icons/fa"
+import { IoCartOutline } from "react-icons/io5";
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+
 export const AppMenu = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] =useState(null);
+  const cartItemsCount = useSelector((state)=>state?.appReducer?.cartItemsCount)
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleCart = () =>{
+    navigate("/cart")
+   }
   const handleNavigation = (path) => {
     handleClose()
     navigate(path)
@@ -35,7 +44,28 @@ export const AppMenu = () => {
      navigate('/')
      dispatch({type:"LOGIN",payload:false})
   }
+  const getCartItems = async() =>{
+    try {
+      dispatch({ type: "LOADER", payload: true })
+      const res = await Ajax.get(`users/cart?uid=${AppCookies.getCookie('uid')}`)
+      dispatch({ type: "CART", payload: res?.data?.[0]?.products?.length })
+  } catch (ex) {
+      console.error(ex);
+  } finally {
+      dispatch({ type: "LOADER", payload: false })
+  }
+  }
+  useEffect(()=>{
+    getCartItems()
+  },[])
   return (
+    <>
+    <Link to='/cart'>
+    <div className={styles.cartImageContainer}>
+      <IoCartOutline size={40} onClick={handleCart} cursor="pointer" />
+      {cartItemsCount>0 && <span>{cartItemsCount}</span>}
+    </div>
+  </Link>
     <div className={styles.appMenu}>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Account settings">
@@ -106,5 +136,6 @@ export const AppMenu = () => {
         </MenuItem>
       </Menu>
     </div>
+    </>
   );
 }

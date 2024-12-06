@@ -1,4 +1,21 @@
 .buyNowContainer{
     margin-top: 100px;
     min-height: 80vh;
+    display: flex;
+}
+.addressContainer{
+    width:40%;
+    margin: 20px;
+    box-shadow: 5px 5px 5px 5px white;
+}
+.address{
+    background-color: white;
+    border:1px solid gray;
+    border-radius: 5px;
+}
+.productDtls{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }

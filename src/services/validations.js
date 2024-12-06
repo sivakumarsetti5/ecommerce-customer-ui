@@ -115,14 +115,11 @@ async function validate(inputObj,clonedInputControls,files){
 }
 export async function handleFieldLevelValidation(event,inputControls,setinputControls){
     const{name,value,type,files} = event?.target
+    console.log(name,value)
     //const clonedInputControls = JSON.parse(JSON.stringify(inputControls))
     const clonedInputControls = Object.assign([],inputControls)
     let inputObj  = clonedInputControls.find((obj)=>obj.name === name)
-    if(type === 'file'){
-        inputObj.selFile = files
-    }else{
-        inputObj.value = value
-    }  
+    inputObj.value = value
     await validate(inputObj,clonedInputControls,files)
     // console.log(inputControls)
     setinputControls(clonedInputControls)
@@ -130,6 +127,7 @@ export async function handleFieldLevelValidation(event,inputControls,setinputCon
 
 
 export async function handleFormLevelValidation(inputControls,setInputControls,isEdit){
+    console.log(inputControls)
     //debugger
     const dataObj  = {}
     const clonedInputControls = Object.assign([],inputControls)

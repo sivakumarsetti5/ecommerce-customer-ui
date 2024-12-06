@@ -14,6 +14,18 @@ export const appReducer = (state=init,action) =>{
                 isShowLoader:action.payload
             }
             break;
+        case "CART":
+            state={
+                ...state,
+                cartItemsCount:action.payload
+            }
+            break;
+        case "BUYNOW":
+            state={
+                ...state,
+                readyToBuyList:action.payload
+            }
+            break;
         case "TOASTER":
             state={
                 ...state,

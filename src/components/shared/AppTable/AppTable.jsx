@@ -1,6 +1,5 @@
 import React, { useState,useEffect } from 'react'
 import { Pagination } from './Pagination'
-import Image from 'next/image';
 
 export const AppTable = ({ths,data,tds,handleEdit,handleDelete,imgTds,imgThs}) => {
     const perPage = 5;
@@ -34,7 +33,7 @@ export const AppTable = ({ths,data,tds,handleEdit,handleDelete,imgTds,imgThs}) =
                     return <tr key={`tr ${index}`} className='text-center align-middle'>
                         {imgTds?.map((val,index)=>{
                             return <td key={`td ${index}`}>
-                                     <Image src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}${obj[val]}?date=${Date.now()}`} width={100} height={100} alt='product image'/>
+                                     <img src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}${obj[val]}?date=${Date.now()}`} width={100} height={100} alt='product image'/>
                                     </td>
                         })}
                         {tds?.map((val,index)=>{

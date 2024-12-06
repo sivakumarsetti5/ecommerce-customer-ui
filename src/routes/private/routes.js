@@ -3,12 +3,11 @@ import { lazy } from "react";
 
 const Cart = lazy(()=>import("./Cart"))
 const Orders = lazy(()=>import("./Orders"))
-const Address = lazy(()=>import("./Address"))
 const Products = lazy(()=>import("../public/Products"))
 const ProductInfo = lazy(()=>import("../public/ProductInfo"))
 const Profile = lazy(()=>import("./Profile"))
 const BuyNow = lazy(()=>import("./BuyNow"))
-
+const Address = lazy(()=>import('./Address'))
 
 export const privateRoutes = [
     {

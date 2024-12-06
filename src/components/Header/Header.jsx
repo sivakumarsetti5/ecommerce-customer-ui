@@ -1,22 +1,18 @@
 import React from 'react'
 import styles from './Header.module.css'
-import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import AppMenu from '../../routes/private/AppMenu'
 import SearchIcon from '@mui/icons-material/Search';
+import { Link } from 'react-router-dom'
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
-import { FaCartPlus } from "react-icons/fa"
-import { IoCartOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 export const Header = () => {
  const isLoggedIn =  useSelector((state)=>state?.appReducer?.isLoggedIn)
  const navigate = useNavigate()
- const handleCart = () =>{
-  navigate("/cart")
- }
+ 
  const fnHandleSearch = (event) =>{
  }
   return (
@@ -41,7 +37,6 @@ export const Header = () => {
         </Paper>
       </div>
       <div className='d-flex align-items-center'>
-        <IoCartOutline size={40} onClick={handleCart} cursor="pointer"/>
         {isLoggedIn ? 
           <AppMenu/>:
           <div className={styles.auth}>

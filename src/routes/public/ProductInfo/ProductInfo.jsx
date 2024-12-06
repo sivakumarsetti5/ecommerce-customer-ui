@@ -1,12 +1,14 @@
 import { useQuery } from '@apollo/client'
 import { useNavigate, useParams } from 'react-router-dom'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GET_PRODUCT_INFO } from '../../../graphql/queries/getProductInfo'
 import styles from './ProductInfo.module.css'
 import { useDispatch } from 'react-redux'
 import { AppCookies } from '../../../services/cookies'
+import Ajax from '../../../services/ajax'
 export const ProductInfo = () => {
   const {id} = useParams()
+  const[cartItems,setCartItems] = useState([])
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const{loading,data,error,refetch} =  useQuery(GET_PRODUCT_INFO,{
@@ -14,28 +16,79 @@ export const ProductInfo = () => {
       "productId": id
     }
   })
-  const handleAuth = (path) =>{
-    const isLoggedIn = AppCookies.isUserLoggedIn()
-    if(isLoggedIn){
-      navigate(path)
-    }else{
+  const{name,category,cost,description,filePath} = data?.getProductInfo?.[0] || {}
+  // console.log(data?.getProductInfo?.[0])
+  const fnCheckItemInTheCart = ()=>{
+    debugger
+    return cartItems?.some((obj)=>obj._id===data?.getProductInfo[0]._id)
+  }
+  const handleAddToCart = async()=>{
+    if(!AppCookies.isUserLoggedIn()){
+      navigate('/login')
+      return
+    }
+    if(fnCheckItemInTheCart()){
+      dispatch({type:"TOASTER",payload:{
+        isShowToaster:true,
+        toasterMsg:"Already Added to the cart",
+        color:"red"
+      }})
+      return
+    }
+    try{
+      dispatch({type:"LOADER",payload:true})
+      const res = await Ajax.post('users/add-to-cart',{uid:AppCookies.getCookie('uid'),product:data?.getProductInfo?.[0]})
+      console.log(res?.data)
+      const{acknowledged,modifiedCount,upsertedCount} = res?.data
+      let isSuccess = false
+      if(acknowledged && (modifiedCount || upsertedCount)){
+        isSuccess=true
+        navigate('/cart')
+        dispatch({type:"CART",payload:cartItems?.length+1})
+      }
+      dispatch({type:"TOASTER",payload:{
+        isShowToaster:true,
+        toasterMsg:isSuccess? "Added to the cart":"Not Added ",
+        color:isSuccess?'green':"red"
+      }})
+    }catch(ex){
+      dispatch({type:"TOASTER",payload:{
+        isShowToaster:true,
+        toasterMsg:ex?.message,
+        color:"red"
+      }})
+    }finally{
+      dispatch({type:"LOADER",payload:false})
+    }
+
+  }
+  const handleBuyNow = ()=>{
+    if(!AppCookies.isUserLoggedIn()){
       navigate('/login')
     }
   }
-  const handleAddToCart = ()=>{
-    handleAuth('/cart')
+
+  const getCartList = async() =>{
+    try{
+      const res = await Ajax.get(`users/cart?uid=${AppCookies.getCookie("uid")}`)
+      setCartItems(res?.data?.[0].products)
+      dispatch({type:"CART",payload:res?.data?.[0].products.length})
+    }catch(ex){
+      console.error(ex)
+    }
   }
-  const handleBuyNow = ()=>{
-    handleAuth('/buy-now')
-  }
-  // console.log(data?.getProductInfo?.[0])
-  const{name,category,cost,description,filePath} = data?.getProductInfo?.[0] || {}
+  
+  
   useEffect(()=>{
     dispatch({
       type:"LOADER",
       payload:loading
     })
   },[loading])
+
+  useEffect(()=>{
+    getCartList()
+  })
   return (
     <div>{data && 
     <div className={styles.productInfoCont}>
