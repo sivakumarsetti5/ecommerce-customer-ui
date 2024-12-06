@@ -3,11 +3,12 @@ import styles from "./BuyNow.module.css";
 import { useSelector } from "react-redux";
 import Ajax from "../../../services/ajax";
 import { AppCookies } from "../../../services/cookies";
+import { ReadyToBuy } from "./ReadyToBuy";
 
 export const BuyNow = () => {
   const readyToBuyList = useSelector((state) => state?.appReducer?.readyToBuyList); //list of objects
   const [address,setAddress] = useState([])
-  const[itemCount,setItemCount] = useState(1)
+  const [totalAmount,setTotalAmount] = useState(0)
   const fnGetAddress = async () => {
     try {
         const res = await Ajax.get(`address/get?uid=${AppCookies.getCookie('uid')}`)
@@ -17,16 +18,20 @@ export const BuyNow = () => {
         setAddress([])
         console.error("Address", ex)
     }
+}
+const updateTotalAmount = (amount)=>{
+  setTotalAmount(totalAmount+amount)
+}
+useEffect(() => {
+  const calculateTotal = () => {
+    const total = readyToBuyList.reduce((sum, item) => {
+      return sum + item.cost * (item.count || 1); // Ensure count is 1 by default
+    }, 0);
+    setTotalAmount(total);
+  };
 
-}
-const fnDecrement = () =>{
-  if(itemCount>=1){
-    setItemCount(itemCount=>itemCount-1)
-  }
-}
-const fnIncrement = () =>{
-  setItemCount(itemCount=>itemCount+1)
-}
+  calculateTotal();
+}, [readyToBuyList]);
   useEffect(()=>{
     fnGetAddress()
   },[])
@@ -49,20 +54,13 @@ const fnIncrement = () =>{
       </div>
       <div className="container-fluid">
         <div className="p-3 fs-5"><b>Price Details</b></div>
-        {readyToBuyList.map(({ name, cost, category }) => {
-          return (
-            <div className={`row border border-black m-2 p-3 ${styles.productDtls}`}>
-              <div className='col-sm-3'>{name}</div>
-              <div className='col-sm-2'>{category}</div>
-              <div className='col-sm-3'>
-                <button onClick={fnDecrement}>-</button>
-                {itemCount}
-                <button onClick={fnIncrement}>+</button>
-              </div>
-              <div className='col-sm-1'>{cost}</div>
-            </div>
-          );
-        })}
+        {readyToBuyList.map((item,index) =><ReadyToBuy itemDetails={item} key={index} updateTotalAmount={updateTotalAmount}/> )}
+      <div className="mt-3 text-center">
+        <h3>Total Amount:  {totalAmount}</h3>
+      </div>
+      <div className="text-end mt-5">
+        <button className="btn btn-primary">Proceed To Pay</button>
+      </div>
       </div>
     </div>
   );

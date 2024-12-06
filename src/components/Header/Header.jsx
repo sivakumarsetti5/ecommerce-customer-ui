@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 
 export const Header = () => {
  const isLoggedIn =  useSelector((state)=>state?.appReducer?.isLoggedIn)
+ console.log()
  const navigate = useNavigate()
  
  const fnHandleSearch = (event) =>{

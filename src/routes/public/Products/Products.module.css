@@ -3,6 +3,7 @@
     flex-wrap: wrap;
     margin-top: 100px;  
     padding: 10px;
+    min-height: 80vh;
 }
 .productCard{
     height: 280px;
