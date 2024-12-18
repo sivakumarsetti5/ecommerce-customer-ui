@@ -9,13 +9,16 @@ export const Cart = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [cartItems,setCartItems] = useState([])
-  const [selectedProducts,setSelectedProducts] = useState([])
+  const [isSelectAll,setIsSelectAll] = useState(true)
 
   const getCartItems = async() =>{
     try {
       dispatch({ type: "LOADER", payload: true })
       const res = await Ajax.get(`users/cart?uid=${AppCookies.getCookie('uid')}`)
-      setCartItems(res?.data?.[0]?.products || []);
+      setCartItems(res?.data?.[0]?.products?.map(obj=>{
+        obj.isChecked = true
+        return obj
+      }) ||[]);
       dispatch({ type: "CART", payload: res?.data?.[0]?.products?.length })
   } catch (ex) {
       console.error(ex);
@@ -38,16 +41,28 @@ export const Cart = () => {
   }
   }
 
-  const handleCheckBox = (product) =>{
-      if(selectedProducts.includes(product)){
-        setSelectedProducts(selectedProducts.filter(item=>item!==product))
-      }else{
-        setSelectedProducts([...selectedProducts,product])
-      }
+  const handleCheckBox = (event,id) =>{
+      const{checked} = event?.target
+      const _cartItems = [...cartItems]
+      const currProduct = _cartItems.find(obj=>obj._id === id)
+      currProduct.isChecked = checked
+      setCartItems(_cartItems)
+      setIsSelectAll(_cartItems.every((obj)=>obj.isChecked))
+  }
+
+  const fnSelectDeselect = () =>{
+    let _cartItems = [...cartItems]
+    _cartItems = _cartItems.map((obj)=>{
+      obj.isChecked = !isSelectAll
+      return obj
+    })
+    setCartItems(_cartItems)
+    setIsSelectAll(!isSelectAll)
   }
 
   const handleBuyNow = () =>{
-    dispatch({type:"BUYNOW",payload:selectedProducts})
+    const checkoutProducts = cartItems.filter(obj=>obj.isChecked)
+    AppCookies.setCookie('readyToBuyList',JSON.stringify(checkoutProducts))
     navigate('/buy-now')
   }
 
@@ -59,12 +74,14 @@ export const Cart = () => {
             <h3 className='my-3 text-center'>Cart</h3>
             {
               cartItems?.length ?
-                 <>{
+                 <>
+                 <div className='mb-3'><button className='btn btn-primary' onClick={fnSelectDeselect}>{isSelectAll?"Deselect All":"Select All"}</button></div>
+                 {
                   cartItems?.map((obj) => {
-                      const{ _id, filePath, name, cost, category} = obj
+                      const{ _id, filePath, name, cost, category,isChecked} = obj
                       return <div className='row border mb-3 p-2 align-items-center'>
                           <div className='col-sm-1'>
-                            <input type='checkbox' className='form-check-input' onChange={()=>{handleCheckBox(obj)}} checked={selectedProducts.includes(obj)}/>
+                            <input type='checkbox' className='form-check-input' onChange={(event)=>{handleCheckBox(event,_id)}} checked={isChecked}/>
                           </div>
                           <div className='col-sm-2'><img src={`${process.env.REACT_APP_VENDOR_BASE_URL}${filePath}?time=${Date.now()}`} width={100} height={100} loading='lazy' /></div>
                           <div className='col-sm-2 text-bold'>{name}</div>

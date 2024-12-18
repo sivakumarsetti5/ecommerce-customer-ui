@@ -1,5 +1,6 @@
 import axios from "axios";
 import { AppCookies } from "./cookies";
+import { data } from "react-router-dom";
 
 // Add a request interceptor
 axios.interceptors.request.use(function (request) {

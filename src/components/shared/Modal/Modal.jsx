@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 export const Modal = () => {
     const dispatch = useDispatch()
-    const {modalAction} = useSelector(state=>state?.appReducer?.modal)
+    const {message,modalAction} = useSelector(state=>state?.appReducer?.modal)
     const fnOK = ()=>{
         modalAction()
         fnCancel()
@@ -14,7 +14,8 @@ export const Modal = () => {
             type:"MODAL",
             payload:{
                 isShowModal:false,
-                modalAction:()=>{}
+                modalAction:()=>{},
+                message:''
             }
         })
     }
@@ -22,7 +23,7 @@ export const Modal = () => {
     <div>
         <div className={styles.modalMask}></div>
         <div className={`px-3 py-3 ${styles.modalContent}`}>
-            <h5 className="mb-5">Are you sure</h5>
+            <h5 className="mb-3">{message}</h5>
             <div className="text-end">
                 <button className="btn btn-dark me-3" onClick={fnOK} >
                     OK

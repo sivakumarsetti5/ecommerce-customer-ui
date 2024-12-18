@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styles from "./BuyNow.module.css";
 
 export const ReadyToBuy = ({ itemDetails,updateTotalAmount }) => {
@@ -17,6 +17,7 @@ export const ReadyToBuy = ({ itemDetails,updateTotalAmount }) => {
     updateTotalAmount(cost)
   };
 
+
   return (
     <div className={`row border border-black m-2 p-3  ${styles.productDtls}` }>
       <div className="col-sm-3">{name}</div>
@@ -30,3 +31,4 @@ export const ReadyToBuy = ({ itemDetails,updateTotalAmount }) => {
     </div>
   );
 };
+

@@ -11,6 +11,7 @@ export const init = {
         color:''
     },
     modal:{
+        message:'',
         isShowModal:false,
         modalAction:()=>{}
     }

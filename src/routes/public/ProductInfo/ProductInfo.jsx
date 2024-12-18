@@ -66,6 +66,8 @@ export const ProductInfo = () => {
     if(!AppCookies.isUserLoggedIn()){
       navigate('/login')
     }
+    AppCookies.setCookie("readyToBuyList",JSON.stringify([data?.getProductInfo?.[0]]))
+    navigate('/buy-now')
   }
 
   const getCartList = async() =>{
